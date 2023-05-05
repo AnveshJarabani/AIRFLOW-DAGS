@@ -11,17 +11,10 @@ import sqlalchemy
 @task()
 def get_src_tables():
     hook=MySqlHook(mysql_conn_id="uct_data")
-    sql='''
-        select * from `qly ints`
-        '''
-    QS=hook.get_pandas_df(sql)
-
-cn_uct=sqlalchemy.create_engine('mysql+pymysql://anveshjarabani:Zintak1!@mysql12--2.mysql.database.azure.com:3306/uct_data',
-                            connect_args={'ssl_ca':'DigiCertGlobalRootCA.crt.pem'})
+    QS=hook.get_pandas_df("select * from `qly ints")
+    OVS_RAW=hook.get_pandas_df("select * from `ovs_raw`")
 OVS.replace([np.inf,-np.inf],np.nan,inplace=True)
-cn_uct.execute('DROP TABLE IF EXISTS OVS_TREND')
 OVS.to_sql(name='OVS_TREND',con=cn_uct,if_exists='replace',index=False)
-QS=pd.read_sql()
 def sort_QS(DF):
     pi=DF.merge(QS,left_on='Q+YR',right_on='Q+YR',how='left')
     pi.sort_values(by=['YR','MONTH'],ascending=True,inplace=True)
