@@ -9,7 +9,6 @@ from airflow.hooks.base_hook import BaseHook
 import numpy as np
 import pandas as pd
 import sqlalchemy
-@task()
 def ovs_calc():
     hook=MySqlHook(mysql_conn_id="uct_data")
     QS=hook.get_pandas_df("select * from `qly ints")
