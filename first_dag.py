@@ -14,7 +14,7 @@ def first_func(*args,**kwargs):
 # */2 **** execute every two minutes
 
 with DAG(
-    dag_id='first_dag.py',
+    dag_id='first_dag',
     schedule='@daily',
     default_args={
         'owner':'airflow',
