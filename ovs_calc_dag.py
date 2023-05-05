@@ -3,6 +3,7 @@ from datetime import datetime
 from airflow.models.dag import DAG
 from airflow.decorators import task
 from airflow.utils.task_group import TaskGroup
+from airflow.operators.python_operator import PythonOperator
 from airflow.providers.mysql.hooks.mysql import MySqlHook
 from airflow.hooks.base_hook import BaseHook
 import numpy as np
