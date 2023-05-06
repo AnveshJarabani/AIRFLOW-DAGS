@@ -65,15 +65,16 @@ def ovs_calc():
     except Exception as e:
         print("Connection failed: ", e)
     cn_leet_engine.execute('DROP TABLE IF EXISTS OVS_TREND')
-    OVS.to_sql(name='OVS_TREND',con=cn_leet,if_exists='replace',index=False)
+    OVS.to_sql(name='OVS_TREND',con=cn_leet_engine,if_exists='replace',index=False)
+    print('OVS_TREND ETL COMPLETE')
     for i in OVS.iloc[:,1].unique():
         OVS.loc[OVS.iloc[:,1]==i,'TEMP']=np.roll(OVS.loc[OVS.iloc[:,1]==i,'OVS COST'],1)
     OVS=OVS.loc[OVS.iloc[:,2]<OVS.iloc[:,3]*10]
     OVS=OVS.iloc[:,1:3]
     OVS=OVS.drop_duplicates(subset=['MATERIAL'],keep='last',ignore_index=True)
     cn_leet_engine.execute('DROP TABLE IF EXISTS OVS')
-    OVS.to_sql(name='OVS',con=cn_leet,if_exists='replace',index=False) # OVS COST FOR USING IN QUOTE CALCULATION
-    print('OVS to sql COMPLETE')
+    OVS.to_sql(name='OVS',con=cn_leet_engine,if_exists='replace',index=False) # OVS COST FOR USING IN QUOTE CALCULATION
+    print('OVS ETL COMPLETE')
 with DAG(
 dag_id='ovs_trends_calculation',
 schedule_interval='@daily',
