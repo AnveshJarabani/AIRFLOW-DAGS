@@ -56,7 +56,8 @@ def ovs_calc():
     OVS.replace([np.inf,-np.inf],np.nan,inplace=True)
     cn_leet=BaseHook.get_connection('leetcode')
     connection_string = f'mysql+pymysql://{cn_leet.login}:{cn_leet.password}@{cn_leet.host}:{cn_leet.port}/{cn_leet.schema}'
-    cn_leet_engine=sqlalchemy.create_engine(connection_string,connect_args={'ssl_ca':'DigiCertGlobalRootCA.crt.pem'})
+    cn_leet_engine=sqlalchemy.create_engine(connection_string,
+    connect_args={'ssl_ca':'/home/anveshjarabani/airflow/dags/DigiCertGlobalRootCA.crt.pem'})
     try:
         connection = cn_leet_engine.connect()
         print("Connection successful!")
