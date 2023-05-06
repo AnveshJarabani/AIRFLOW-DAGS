@@ -22,5 +22,5 @@ default_args={
 },
 catchup=False) as f:
     OVS_ETL = PythonOperator(
-        task_id='OVS ETL DAG',
+        task_id='OVS_ETL_DAG',
         python_callable=ovs_pipe)
