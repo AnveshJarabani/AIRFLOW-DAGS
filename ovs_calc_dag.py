@@ -57,6 +57,12 @@ def ovs_calc():
     cn_leet=BaseHook.get_connection('leetcode')
     connection_string = f'mysql+pymysql://{cn_leet.login}:{cn_leet.password}@{cn_leet.host}:{cn_leet.port}/{cn_leet.schema}'
     cn_leet_engine=sqlalchemy.create_engine(connection_string,connect_args={'ssl_ca':'DigiCertGlobalRootCA.crt.pem'})
+    try:
+        connection = cn_leet_engine.connect()
+        print("Connection successful!")
+        connection.close()
+    except Exception as e:
+        print("Connection failed: ", e)
     cn_leet_engine.execute('DROP TABLE IF EXISTS OVS_TREND')
     OVS.to_sql(name='OVS_TREND',con=cn_leet,if_exists='replace',index=False)
     for i in OVS.iloc[:,1].unique():
