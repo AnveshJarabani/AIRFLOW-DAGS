@@ -5,6 +5,7 @@ import pandas as pd
 import sqlalchemy
 def ovs_pipe():
     hook=MySqlHook(mysql_conn_id="uct_data")
+    b_hook=BaseHook.get_connection('uct_data')
     QS=hook.get_pandas_df("select * from `qly ints`")
     OVS_RAW=hook.get_pandas_df("select * from `ovs_raw`")
     def sort_QS(DF):
@@ -47,7 +48,7 @@ def ovs_pipe():
     OVS['DELTA %'].replace(np.nan,0,inplace=True)
     OVS.dropna(how='all',inplace=True)
     OVS.replace([np.inf,-np.inf],np.nan,inplace=True)
-    connection_string = f'mysql+pymysql://{hook.login}:{hook.password}@{hook.host}:{hook.port}/{hook.schema}'
+    connection_string = f'mysql+pymysql://{b_hook.login}:{b_hook.password}@{b_hook.host}:{b_hook.port}/{b_hook.schema}'
     hook_engine=sqlalchemy.create_engine(connection_string,
     connect_args={'ssl_ca':'/home/anveshjarabani/airflow/dags/DigiCertGlobalRootCA.crt.pem'})
     try:
