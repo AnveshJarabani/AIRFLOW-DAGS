@@ -1,4 +1,4 @@
-def ovs_calc():
+def ovs_pipe():
     hook=MySqlHook(mysql_conn_id="uct_data")
     QS=hook.get_pandas_df("select * from `qly ints`")
     OVS_RAW=hook.get_pandas_df("select * from `ovs_raw`")

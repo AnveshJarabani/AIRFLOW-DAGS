@@ -12,7 +12,7 @@ import pandas as pd
 import sqlalchemy
 from ovs_calc import ovs_pipe
 with DAG(
-dag_id='ovs_trends_calculation',
+dag_id='ovs_trends_pipeline',
 schedule_interval='@daily',
 default_args={
     'owner':'airflow',
@@ -21,6 +21,6 @@ default_args={
     'start_date': datetime(2023,5,5),
 },
 catchup=False) as f:
-    ovs_calc = PythonOperator(
+    OVS_ETL = PythonOperator(
         task_id='OVS ETL DAG',
         python_callable=ovs_pipe)
