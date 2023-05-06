@@ -47,24 +47,23 @@ def ovs_pipe():
     OVS['DELTA %'].replace(np.nan,0,inplace=True)
     OVS.dropna(how='all',inplace=True)
     OVS.replace([np.inf,-np.inf],np.nan,inplace=True)
-    cn_leet=BaseHook.get_connection('leetcode')
-    connection_string = f'mysql+pymysql://{cn_leet.login}:{cn_leet.password}@{cn_leet.host}:{cn_leet.port}/{cn_leet.schema}'
-    cn_leet_engine=sqlalchemy.create_engine(connection_string,
+    connection_string = f'mysql+pymysql://{hook.login}:{hook.password}@{hook.host}:{hook.port}/{hook.schema}'
+    hook_engine=sqlalchemy.create_engine(connection_string,
     connect_args={'ssl_ca':'/home/anveshjarabani/airflow/dags/DigiCertGlobalRootCA.crt.pem'})
     try:
-        connection = cn_leet_engine.connect()
+        connection = hook_engine.connect()
         print("Connection successful!")
         connection.close()
     except Exception as e:
         print("Connection failed: ", e)
-    cn_leet_engine.execute('DROP TABLE IF EXISTS OVS_TREND')
-    OVS.to_sql(name='OVS_TREND',con=cn_leet_engine,if_exists='replace',index=False)
+    hook_engine.execute('DROP TABLE IF EXISTS OVS_TREND')
+    OVS.to_sql(name='ovs_trend',con=hook_engine,if_exists='replace',index=False)
     print('OVS_TREND ETL COMPLETE')
     for i in OVS.iloc[:,1].unique():
         OVS.loc[OVS.iloc[:,1]==i,'TEMP']=np.roll(OVS.loc[OVS.iloc[:,1]==i,'OVS COST'],1)
     OVS=OVS.loc[OVS.iloc[:,2]<OVS.iloc[:,3]*10]
     OVS=OVS.iloc[:,1:3]
     OVS=OVS.drop_duplicates(subset=['MATERIAL'],keep='last',ignore_index=True)
-    cn_leet_engine.execute('DROP TABLE IF EXISTS OVS')
-    OVS.to_sql(name='OVS',con=cn_leet_engine,if_exists='replace',index=False) # OVS COST FOR USING IN QUOTE CALCULATION
+    hook_engine.execute('DROP TABLE IF EXISTS OVS')
+    OVS.to_sql(name='ovs',con=hook_engine,if_exists='replace',index=False) # OVS COST FOR USING IN QUOTE CALCULATION
     print('OVS ETL COMPLETE')
