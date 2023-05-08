@@ -12,7 +12,7 @@ import pandas as pd
 import sqlalchemy
 import subprocess
 def ovs_calc():
-    subprocess.run(['python','ovs_calc.py'])
+    exec(open('ovs_calc.py').read())
 with DAG(
 dag_id='CHANDLER_ANALYTICS_PIPELINE',
 schedule_interval='@daily',
