@@ -10,7 +10,9 @@ from airflow.hooks.base import BaseHook
 import numpy as np
 import pandas as pd
 import sqlalchemy
-import ovs_calc
+import subprocess
+def ovs_calc():
+    subprocess.run(['python','ovs_calc.py'])
 with DAG(
 dag_id='CHANDLER_ANALYTICS_PIPELINE',
 schedule_interval='@daily',
