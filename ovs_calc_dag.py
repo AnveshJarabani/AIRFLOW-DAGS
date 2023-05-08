@@ -10,9 +10,10 @@ from airflow.hooks.base import BaseHook
 import numpy as np
 import pandas as pd
 import sqlalchemy
-import subprocess
 def ovs_calc():
     exec(open('ovs_calc.py').read())
+def process_calc():
+    exec(open('process_days_calc.py').read())
 with DAG(
 dag_id='CHANDLER_ANALYTICS_PIPELINE',
 schedule_interval='@daily',
@@ -22,3 +23,9 @@ default_args={'owner':'airflow','retries':1,
     OVS_ETL = PythonOperator(
         task_id='OVS_ETL_DAG',
         python_callable=ovs_calc)
+    PROCESS_DAYS_ETL = PythonOperator(
+        task_id='PROCESS_DAYS_ETL_DAG',
+        python_callable=process_calc)
+    
+    OVS_ETL >> PROCESS_DAYS_ETL
+

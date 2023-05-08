@@ -3,7 +3,6 @@ from airflow.hooks.base import BaseHook
 import numpy as np
 import pandas as pd
 import sqlalchemy
-# def ovs_pipe():
 hook=MySqlHook(mysql_conn_id="uct_data")
 b_hook=BaseHook.get_connection('uct_data')
 QS=hook.get_pandas_df("select * from `qly ints`")
@@ -53,7 +52,7 @@ hook_engine=sqlalchemy.create_engine(connection_string,
 connect_args={'ssl_ca':'/home/anveshjarabani/airflow/dags/DigiCertGlobalRootCA.crt.pem'})
 try:
     connection = hook_engine.connect()
-    print("Connection successful!")
+    print("Connection successful for OVS!")
     connection.close()
 except Exception as e:
     print("Connection failed: ", e)
