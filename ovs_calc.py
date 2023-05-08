@@ -1,8 +1,8 @@
 from airflow.providers.mysql.hooks.mysql import MySqlHook
 from airflow.hooks.base import BaseHook
+import sqlalchemy
 import numpy as np
 import pandas as pd
-import sqlalchemy
 hook=MySqlHook(mysql_conn_id="uct_data")
 b_hook=BaseHook.get_connection('uct_data')
 QS=hook.get_pandas_df("select * from `qly ints`")

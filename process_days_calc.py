@@ -49,7 +49,7 @@ hook_engine=sqlalchemy.create_engine(connection_string,
 connect_args={'ssl_ca':'/home/anveshjarabani/airflow/dags/DigiCertGlobalRootCA.crt.pem'})
 try:
     connection = hook_engine.connect()
-    print("Connection successful!")
+    print("Connection successful for process days!")
     connection.close()
 except Exception as e:
     print("Connection failed: ", e)
