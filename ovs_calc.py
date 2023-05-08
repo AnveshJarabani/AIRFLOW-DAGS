@@ -8,7 +8,7 @@ hook=MySqlHook(mysql_conn_id="uct_data")
 b_hook=BaseHook.get_connection('uct_data')
 QS=hook.get_pandas_df("select * from `qly ints`")
 OVS_RAW=hook.get_pandas_df("select * from `ovs_raw`")
-def sort_QS(DF):
+def sort_QS(DF,QS):
     pi=DF.merge(QS,left_on='Q+YR',right_on='Q+YR',how='left')
     pi.sort_values(by=['YR','MONTH'],ascending=True,inplace=True)
     pi=pi[DF.columns]
@@ -40,7 +40,7 @@ OVS.reset_index(inplace=True)
 OVS = OVS.loc[OVS['OVS Material - Key'] != '#']
 OVS.rename(columns={'OVS Material - Key': 'MATERIAL', 'PO Price' : 'OVS COST'},inplace=True)
 OVS['OVS COST']=OVS['OVS COST'].round(2)
-OVS=sort_QS(OVS)
+OVS=sort_QS(OVS,QS)
 for i in OVS['MATERIAL'].unique():
     OVS.loc[OVS['MATERIAL']==i,'LAST Q COST']=OVS.loc[OVS['MATERIAL']==i,'OVS COST'].shift(1)
 OVS['DELTA %']=(OVS['OVS COST']-OVS['LAST Q COST'])/OVS['LAST Q COST']
