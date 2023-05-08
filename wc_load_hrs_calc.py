@@ -43,5 +43,5 @@ try:
 except Exception as e:
     print("Connection failed: ", e)
 hook_engine.execute('DROP TABLE IF EXISTS lbr_wc_load')
-RT.to_sql(name='lbr_wc_load',con=hook_engine,if_exists='replace',index=False)
+pi3.to_sql(name='lbr_wc_load',con=hook_engine,if_exists='replace',index=False)
 print('WC LOAD ETL COMPLETE')
