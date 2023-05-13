@@ -5,12 +5,7 @@ from airflow.models.dag import DAG
 from airflow.decorators import task
 from airflow.utils.task_group import TaskGroup
 from airflow.operators.python_operator import PythonOperator
-from airflow.providers.mysql.hooks.mysql import MySqlHook
-from airflow.hooks.base import BaseHook
-import numpy as np
-import pandas as pd
-import sqlalchemy
-from ovs_calc import ovs_pipe
+from ovs_calc_etl import ovs_pipe
 with DAG(
 dag_id='CHANDLER_ANALYTICS_PIPELINE',
 schedule_interval='@daily',
